@@ -12,6 +12,7 @@ myApp.factory('Authentication',
       }).then(function(response){
           AuthTokenFactory.setToken(response.data.token);
           $location.path('/tasks'); 
+          $rootScope.currentUser = response.data;
       }).catch(function(error){
           $rootScope.message = "Unable to Login,Check the details";
       })
