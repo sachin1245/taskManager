@@ -11,8 +11,6 @@ var app = express();
 
 var PORT = process.env.PORT || 3000;
 
-// var todos = [];
-// var todoNextId = 1;
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -193,7 +191,7 @@ app.delete('/users/login',middleware.requireAuthentication,function(req,res){
     })
 })
 
-db.sequelize.sync({force: true}).then(function() {
+db.sequelize.sync().then(function() {
 	app.listen(PORT, function() {
 
 		console.log("express running on port " + PORT)
