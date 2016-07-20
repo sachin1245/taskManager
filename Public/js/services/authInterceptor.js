@@ -12,4 +12,4 @@ myApp.factory('AuthInterceptor', function AuthInterceptor(AuthTokenFactory) {
     }
     return config;
   }
-});
+});//for setting the headers with Auth Token

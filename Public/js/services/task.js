@@ -13,13 +13,14 @@ myApp.service('taskService',['$rootScope','$location','$http','$route',function(
 	var currentTask;
 	var searchedTask;
 
+
 	function changed(task){
 		if(task){
 			currentTask = task;
 		}
 		
 		return currentTask;
-	}
+	}//edit task state
 
 	function getTask(){
 		return new Promise(function(resolve,reject){
@@ -49,7 +50,8 @@ myApp.service('taskService',['$rootScope','$location','$http','$route',function(
 		}
 		
 		return searchedTask;
-	}
+	}//search function returns the matched tasks with search query
+
 	function newTask(task){
 		$http.post('http://localhost:3000/tasks',task).then(function(data){
 			$location.path('/tasks');
@@ -57,7 +59,7 @@ myApp.service('taskService',['$rootScope','$location','$http','$route',function(
 		 },function(e){
 		    console.log('something went wrong');
 		 })
-	}
+	}//creates new task
 
 	function updateTask(task){
 		$http.put('http://localhost:3000/tasks/'+task.id,task).then(function(){
@@ -65,7 +67,7 @@ myApp.service('taskService',['$rootScope','$location','$http','$route',function(
 		},function(e){
 			console.log('couldn\'t update the task ')
 		})
-	}
+	}//update task
 
 	function deleteTask(taskId){
 		$http.delete('http://localhost:3000/tasks/'+taskId).then(function(){
@@ -74,6 +76,6 @@ myApp.service('taskService',['$rootScope','$location','$http','$route',function(
 		},function(e){
 			console.log('couldn\'t delete the task ')
 		})
-	}
+	}//delete task
 
 }]);

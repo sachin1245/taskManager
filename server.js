@@ -11,10 +11,13 @@ var app = express();
 
 var PORT = process.env.PORT || 3000;
 
-
+//to allow Access-Cross-Origin-Support
 app.use(cors());
+
+//used to parse the data from the requests made
 app.use(bodyParser.json());
 
+//serve index page using express, all the other routes are handled uisng angular
 app.use(express.static(__dirname + '/Public'));
 
 app.get('/tasks', middleware.requireAuthentication,function(req, res) {
@@ -35,6 +38,7 @@ app.get('/tasks', middleware.requireAuthentication,function(req, res) {
 		};
 	}
 
+	//sequelize method to find the all the tasks matches the query
 	db.task.findAll({
 		where: where
 	}).then(function(tasks) {
@@ -48,7 +52,7 @@ app.get('/tasks', middleware.requireAuthentication,function(req, res) {
 app.get('/tasks/:id',middleware.requireAuthentication, function(req, res) {
 	var taskId = parseInt(req.params.id);
 
-
+	//sequelize method to find the task which matches the id
 	db.task.findOne({
         where: {
             id:taskId,
@@ -71,9 +75,10 @@ app.get('/tasks/:id',middleware.requireAuthentication, function(req, res) {
 
 app.post('/tasks',middleware.requireAuthentication, function(req, res) {
 
+	//takes only the required data from the request body
     var body = _.pick(req.body, 'description', 'completed');
 
-	
+	//sequelize method to create the task 	
 	db.task.create(body).then(function(task) {
         req.user.addTask(task).then(function(){
            return task.reload(); 
@@ -92,6 +97,7 @@ app.delete('/tasks/:id', middleware.requireAuthentication,function(req, res) {
 
 	console.log(req.user.get('id'));
 
+	//sequelize method to destroy the task
 	db.task.destroy({
 		where: {
 			id: taskId,
@@ -111,6 +117,8 @@ app.delete('/tasks/:id', middleware.requireAuthentication,function(req, res) {
 });
 
 app.put('/tasks/:id',middleware.requireAuthentication, function(req, res) {
+
+	//takes only the required data from the request body
 	var body = _.pick(req.body, 'description', 'completed');
 	var taskId = parseInt(req.params.id);
 
@@ -124,6 +132,7 @@ app.put('/tasks/:id',middleware.requireAuthentication, function(req, res) {
 		attributes.description = body.description;
 	}
 
+	//sequelize method to search for a single task
 	db.task.findOne({
         where:{
             id: taskId,
@@ -131,10 +140,11 @@ app.put('/tasks/:id',middleware.requireAuthentication, function(req, res) {
         }
     }).then(function(task) {
 		if (task) {
+			//sequelize method to update the searched task
 			task.update(attributes).then(function(task) {
 				res.json(task.toJSON());
 			}, function(e) {
-				res.status(400).json(e);
+				res.status(404).json(e);
 			});
 		} else {
 			res.status(404).send();
@@ -148,6 +158,7 @@ app.put('/tasks/:id',middleware.requireAuthentication, function(req, res) {
 app.post('/users',function(req,res){
     var body = _.pick(req.body,'email','password');
     
+    //sequelize method to create the user
     db.user.create(body).then(function(user){
         res.json(user.toPublicJSON());
     },function(e){
@@ -162,17 +173,20 @@ app.post('/users',function(req,res){
 app.post('/users/login',function(req,res){
      var body = _.pick(req.body,'email','password');
      var userInstance;
-     
+
+     //sequelize method to create ,store and to attach the token to the response header
      db.user.authenticate(body).then(function (user) {
          var token = user.generateToken('authentication');
          userInstance = user;
          
+         //create token ,returns a promise
          return db.token.create({
              token: token
          });
       }).then(function (tokenInstance) {
       	 var token = tokenInstance.get('token');
       	 console.log(token);
+      	 //adding the token to the response header
          res.header('Auth', tokenInstance.get('token')).send({
          	token: token,
          	user: userInstance.toPublicJSON()
@@ -189,8 +203,10 @@ app.delete('/users/login',middleware.requireAuthentication,function(req,res){
     }).catch(function(){
         res.status(500).send();
     })
-})
+})//logout from the browser and delete the hashed token from the db
 
+//sequelize create tables on calling sync() and by passing follwing object to sync({force:true}) sequelize
+//drops the present table and recreates them
 db.sequelize.sync().then(function() {
 	app.listen(PORT, function() {
 

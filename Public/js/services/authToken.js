@@ -21,4 +21,4 @@ myApp.factory('AuthTokenFactory', function AuthTokenFactory($window) {
       }
     }
 
-});
+});//stores and deletes the token from localStorage

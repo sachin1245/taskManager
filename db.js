@@ -1,7 +1,10 @@
+//creates all the db models using sequelize.import
+
 var Sequelize = require('sequelize');
 var env = process.env.NODE_ENV || 'development';
 var sequelize;
 
+//check if the app is in production or development to upload to heroku
 if(env  === 'production'){
     sequelize = new Sequelize(process.env.DATABASE_URL, {
         'dialect': 'postgres',

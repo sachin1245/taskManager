@@ -1,3 +1,5 @@
+//authenticaion middleware , checks the token for every private request made
+
 var cryptojs = require('crypto-js');
 
 module.exports = function(db){

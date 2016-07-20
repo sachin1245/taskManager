@@ -45,7 +45,7 @@ module.exports = function(sequelize, DataTypes) {
                    user.email = user.email.toLowerCase();
                }
             }
-        },
+        },//hooks runs before the actual logic is executed
         classMethods: {
             
           authenticate: function (body){
@@ -71,7 +71,7 @@ module.exports = function(sequelize, DataTypes) {
                        return reject(); 
                     });
             });
-          },
+          },//authenticate the calls made from the client
           findByToken: function(token){
               return new Promise(function(resolve,reject){
                   try {
@@ -93,7 +93,7 @@ module.exports = function(sequelize, DataTypes) {
                   }
               });
           }
-        },
+        },//decodes the hashed token to compare with the request token
         instanceMethods: {
             toPublicJSON: function () {
                 var json = this.toJSON();
