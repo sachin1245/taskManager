@@ -1,0 +1,35 @@
+<section class="card login">
+  <form name="myform"
+    ng-submit="newTask(task)"
+    novalidate>
+
+    <div class="textintro">
+      <h1>Create New Task</h1>
+       
+    </div>
+
+    <fieldset>
+      <input type="textarea" row=5 name="description" placeholder="description"
+       ng-model="task.description" ng-required="true">
+      <p class="error validationerror"
+      ng-show="myform.description.$invalid && myform.description.$touched">
+      You Must Enter Something</p>
+
+      <h2>Task Status</h2>
+      <input type="radio" name="completed" 
+      ng-model="task.completed" value="true">
+      <lable>True</label>
+      <input type="radio" name="completed" 
+      ng-model="task.completed" value="false">
+      <label>False</label>
+
+      
+
+    </fieldset>
+
+    <button type="submit" class="btn"
+      ng-disabled="myform.$invalid">Create Task</button>
+   
+  </form>
+</section>
+

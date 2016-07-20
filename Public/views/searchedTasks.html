@@ -1,0 +1,6 @@
+<div class="task" ng-repeat="task in searchedTasks">
+	<h2>{{task.description}}</h2>	
+	<p>{{task.completed}}</p>
+	<a  class="link" ng-click="editTask(task)" ng-href="#/edit">Edit</a>
+	<a class="link" ng-click="deleteTask(task.id)">Delete</a>
+</div>

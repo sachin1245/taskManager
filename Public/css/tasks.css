@@ -1,0 +1,39 @@
+.task {
+
+	display: inline-block;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 24%;
+	height: 200px;
+	text-align: center;
+	background: rgba(0,0,255,0.5);
+	color: white;
+	margin: 0.5% 0.5% ;
+	padding: 20px;
+}
+
+.task h2{
+	margin: 10px;
+	padding: 10px;
+}
+
+.task p{
+	margin: 10px;
+	padding: 10px;
+	text-transform: uppercase;
+}
+
+
+.link {
+	text-decoration: none;
+	display: inline-block;
+	background: #333;
+	color: white;
+	padding: 3px 5px;
+	cursor: pointer;
+}
+
+#search{
+	cursor: pointer;
+}
