@@ -24,7 +24,7 @@ myApp.service('taskService',['$rootScope','$location','$http','$route',function(
 	function getTask(){
 		return new Promise(function(resolve,reject){
 			var data ;
-			 $http.get("http://localhost:3000/todos").then(function(response){
+			 $http.get("http://localhost:3000/tasks").then(function(response){
 			  	data = response.data;
 			  	resolve(data);
 			  	console.log(data);
@@ -35,17 +35,10 @@ myApp.service('taskService',['$rootScope','$location','$http','$route',function(
 
 	}
 
-	$http
-    .get('accept.php', {
-        params: {
-            source: link,
-            category_id: category
-        }
-     })
 
 	function search(q){
 		if(q){
-			$http.get('http://localhost:3000/todos',{ params: { 
+			$http.get('http://localhost:3000/tasks',{ params: { 
 				q:q
 			}}).then(function(response){
 				searchedTask = response.data;
@@ -60,7 +53,7 @@ myApp.service('taskService',['$rootScope','$location','$http','$route',function(
 		return searchedTask;
 	}
 	function newTask(task){
-		$http.post('http://localhost:3000/todos',task).then(function(data){
+		$http.post('http://localhost:3000/tasks',task).then(function(data){
 			$location.path('/tasks');
 			 return data;
 		 },function(e){
@@ -70,7 +63,7 @@ myApp.service('taskService',['$rootScope','$location','$http','$route',function(
 
 	function updateTask(task){
 		console.log(task.id);
-		$http.put('http://localhost:3000/todos/'+task.id,task).then(function(){
+		$http.put('http://localhost:3000/tasks/'+task.id,task).then(function(){
 			$location.path('/tasks');
 		},function(e){
 			console.log('couldn\'t update the task ')
@@ -78,7 +71,7 @@ myApp.service('taskService',['$rootScope','$location','$http','$route',function(
 	}
 
 	function deleteTask(taskId){
-		$http.delete('http://localhost:3000/todos/'+taskId).then(function(){
+		$http.delete('http://localhost:3000/tasks/'+taskId).then(function(){
 			console.log('Task Deleted');
 			$route.reload();
 		},function(e){

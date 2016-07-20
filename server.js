@@ -11,15 +11,15 @@ var app = express();
 
 var PORT = process.env.PORT || 3000;
 
-var todos = [];
-var todoNextId = 1;
+// var todos = [];
+// var todoNextId = 1;
 
 app.use(cors());
 app.use(bodyParser.json());
 
 app.use(express.static(__dirname + '/Public'));
 
-app.get('/todos', middleware.requireAuthentication,function(req, res) {
+app.get('/tasks', middleware.requireAuthentication,function(req, res) {
 	var query = req.query;
 	var where = {
         userId: req.user.get('id')
@@ -37,30 +37,30 @@ app.get('/todos', middleware.requireAuthentication,function(req, res) {
 		};
 	}
 
-	db.todo.findAll({
+	db.task.findAll({
 		where: where
-	}).then(function(todos) {
-		res.json(todos);
+	}).then(function(tasks) {
+		res.json(tasks);
 	}, function(e) {
 		res.status(500).json(e);
 	})
 
 });
 
-app.get('/todos/:id',middleware.requireAuthentication, function(req, res) {
-	var todoId = parseInt(req.params.id);
+app.get('/tasks/:id',middleware.requireAuthentication, function(req, res) {
+	var taskId = parseInt(req.params.id);
 
 
-	db.todo.findOne({
+	db.task.findOne({
         where: {
-            id:todoId,
+            id:taskId,
             userId: req.user.get('id')
         }
-    }).then(function(todo) {
-		if (!!todo) {
-			res.json(todo);
+    }).then(function(task) {
+		if (!!task) {
+			res.json(task);
 		} else {
-			res.status(404).send('cannot find todo with that id');
+			res.status(404).send('cannot find task with that id');
 		}
 
 	}, function(e) {
@@ -71,16 +71,16 @@ app.get('/todos/:id',middleware.requireAuthentication, function(req, res) {
 
 });
 
-app.post('/todos',middleware.requireAuthentication, function(req, res) {
+app.post('/tasks',middleware.requireAuthentication, function(req, res) {
 
     var body = _.pick(req.body, 'description', 'completed');
 
 	
-	db.todo.create(body).then(function(todo) {
-        req.user.addTodo(todo).then(function(){
-           return todo.reload(); 
-        }).then(function(todo){
-            res.json(todo.toJSON());
+	db.task.create(body).then(function(task) {
+        req.user.addTask(task).then(function(){
+           return task.reload(); 
+        }).then(function(task){
+            res.json(task.toJSON());
         });
 	}, function(e) {
 		res.status(400).json(e.message);
@@ -89,35 +89,32 @@ app.post('/todos',middleware.requireAuthentication, function(req, res) {
 
 });
 
-app.delete('/todos/:id', middleware.requireAuthentication,function(req, res) {
-	var todoId = parseInt(req.params.id);
+app.delete('/tasks/:id', middleware.requireAuthentication,function(req, res) {
+	var taskId = parseInt(req.params.id);
 
-	db.todo.destroy({
+	console.log(req.user.get('id'));
+
+	db.task.destroy({
 		where: {
-			id: todoId,
+			id: taskId,
             userId: req.user.get('id')
 		}
 	}).then(function(rowsDeleted) {
 		if (rowsDeleted === 0) {
-			res.status(404).json('no todo with that id');
+			console.log('no task with that id');
+			res.status(401).json('no task with that id');
 		} else {
 			res.status(204).json();
 		}
 	}, function(e) {
 		res.status(500).json(e);
-	})
-
-	var matchedTodo = _.findWhere(todos, {
-		id: todoId
 	});
-
-
 
 });
 
-app.put('/todos/:id',middleware.requireAuthentication, function(req, res) {
+app.put('/tasks/:id',middleware.requireAuthentication, function(req, res) {
 	var body = _.pick(req.body, 'description', 'completed');
-	var todoId = parseInt(req.params.id);
+	var taskId = parseInt(req.params.id);
 
 	var attributes = {};
 
@@ -129,15 +126,15 @@ app.put('/todos/:id',middleware.requireAuthentication, function(req, res) {
 		attributes.description = body.description;
 	}
 
-	db.todo.findOne({
+	db.task.findOne({
         where:{
-            id: todoId,
+            id: taskId,
             userId: req.user.get('id')
         }
-    }).then(function(todo) {
-		if (todo) {
-			todo.update(attributes).then(function(todo) {
-				res.json(todo.toJSON());
+    }).then(function(task) {
+		if (task) {
+			task.update(attributes).then(function(task) {
+				res.json(task.toJSON());
 			}, function(e) {
 				res.status(400).json(e);
 			});

@@ -1,8 +1,8 @@
 var myApp = angular.module('myApp',
   ['ngRoute', 'firebase'], function config($httpProvider) {
     $httpProvider.interceptors.push('AuthInterceptor');
-  })
-  .constant('FIREBASE_URL', 'https://angreg77.firebaseIO.com/');
+  });
+  
 
 
 myApp.run(['$rootScope', '$location',
@@ -25,15 +25,6 @@ myApp.config(['$routeProvider', '$httpProvider', function($routeProvider, $httpP
     when('/register', {
       templateUrl: 'views/register.html',
       controller: 'RegistrationController'
-    }).
-    when('/success', {
-      templateUrl: 'views/success.html',
-      controller: 'SuccessController',
-      resolve: {
-        currentAuth: function(Authentication) {
-          return Authentication.requireAuth();
-        } //current Auth
-      } //resolve
     }).
     when('/tasks',{
       templateUrl: 'views/tasks.html',
