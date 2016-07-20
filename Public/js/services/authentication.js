@@ -11,7 +11,6 @@ myApp.factory('Authentication',
           password: user.password
       }).then(function(response){
           AuthTokenFactory.setToken(response.data.token);
-          $rootScope.currentUser = response.data;   
           $location.path('/tasks'); 
       }).catch(function(error){
           $rootScope.message = "Unable to Login,Check the details";
@@ -19,8 +18,6 @@ myApp.factory('Authentication',
     }, //login
 
     logout: function() {
-      
-      console.log('i am in logout')
       $rootScope.currentUser = '';
       return AuthTokenFactory.setToken();
     }, //logout
@@ -35,17 +32,14 @@ myApp.factory('Authentication',
           email: user.email,
           password: user.password
       }).then(function(response){
-           console.log(response);
            $rootScope.message = " Thanks for registering";
            $location.path('/login');
 
       }).catch(function(res){
-          console.log(res.data.errors[0]);
           if(res.data.errors[0].message === 'email must be unique'){
             $rootScope.message = 'User with this email is already registerd';
           }else if(res.data.errors[0].message === 'Validation len failed' && res.data.errors[0].path === 'password'){
-             $rootScope.message = 'Password length should be minimum 6 characters';
-             console.log($rootScope.message);    
+             $rootScope.message = 'Password length should be minimum 6 characters';  
           }else{
             $rootScope.message = res.data;
           }

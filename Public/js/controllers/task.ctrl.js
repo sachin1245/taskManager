@@ -10,19 +10,9 @@ myApp.controller('taskController',['$http','$scope','$rootScope','$location','$r
 
 	 $http.get("http://localhost:3000/tasks").then(function(response){
             $scope.tasks = response.data;
-            console.log($scope.tasks);
-    },function(e){
+     },function(e){
             console.log('something went wrong');
-    });
-
-	// function getTask(){
-	// 	taskService.getTask().then(function(data){
-	// 		$scope.tasks = data;
-	// 		$route.reload();
-	// 	},function(e){
-	// 		$routeScope.message = e.message;
-	// 	})
-	// }
+     });
 
 	$scope.editTask = function(task){
 		taskService.changed(task);

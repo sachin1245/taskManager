@@ -3,7 +3,6 @@ myApp.controller('editTaskController',['$scope','taskService',function($scope,ta
 	$scope.task = taskService.changed();
 
 	$scope.updateTask = function(task){
-		console.log(task);
 		taskService.updateTask(task);
 	}
 

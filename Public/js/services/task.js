@@ -27,7 +27,6 @@ myApp.service('taskService',['$rootScope','$location','$http','$route',function(
 			 $http.get("http://localhost:3000/tasks").then(function(response){
 			  	data = response.data;
 			  	resolve(data);
-			  	console.log(data);
 			  },function(e){
 			  	reject('something went wrong');
 			  });
@@ -46,7 +45,6 @@ myApp.service('taskService',['$rootScope','$location','$http','$route',function(
 				$route.reload();
 			},function(e){
 				console.log('Couldn\'t  search , Something went wrong');
-				console.log(e);
 			});
 		}
 		
@@ -62,7 +60,6 @@ myApp.service('taskService',['$rootScope','$location','$http','$route',function(
 	}
 
 	function updateTask(task){
-		console.log(task.id);
 		$http.put('http://localhost:3000/tasks/'+task.id,task).then(function(){
 			$location.path('/tasks');
 		},function(e){
