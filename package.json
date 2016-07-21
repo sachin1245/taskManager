@@ -7,6 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "sachin C",
+  "engines": {
+    "node": "4.1.1"
+  },
   "license": "ISC",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
