@@ -20,7 +20,11 @@ myApp.factory('Authentication',
 
     logout: function() {
       $rootScope.currentUser = '';
-      return AuthTokenFactory.setToken();
+      $http.delete('/users/login').then(function(){
+          return AuthTokenFactory.setToken();
+      },function(e){
+          console.log('Something went wrong');
+      })
     }, //logout
 
     requireAuth: function() {

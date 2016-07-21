@@ -11,8 +11,6 @@ myApp.controller('navController', ['$rootScope','$scope', 'Authentication','$win
   }//search using description
 
   $scope.logout = function() {
-  	console.log('i am called');
-  	console.log($rootScope.currentUser);
   	$rootScope.currentUser = '';
     Authentication.logout();
   }; //logout

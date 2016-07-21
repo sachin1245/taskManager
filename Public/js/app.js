@@ -1,5 +1,5 @@
 var myApp = angular.module('myApp',
-  ['ngRoute', 'firebase'], function config($httpProvider) {
+  ['ngRoute'], function config($httpProvider) {
     $httpProvider.interceptors.push('AuthInterceptor');
   });
   
