@@ -1,6 +1,6 @@
 <section class="card login">
   <form name="myform"
-    ng-submit="updateTask(task)"
+    ng-submit="updateTask(currentTask)"
     novalidate>
 
     <div class="textintro">
@@ -10,7 +10,7 @@
 
     <fieldset>
       <input type="textarea" rows=5 name="description" placeholder="description"
-       ng-model="task.description" ng-required="true">
+       ng-model="currentTask.description" ng-required="true">
       <p class="error validationerror"
       ng-show="myform.description.$invalid && myform.description.$touched">
       You Must Enter Something</p>
@@ -18,10 +18,10 @@
 
       <h2>Task Status</h2>
       <input type="radio" name="completed" 
-      ng-model="task.completed" value="true">
+      ng-model="currentTask.completed" value="true">
       <lable>True</label>
       <input type="radio" name="completed" 
-      ng-model="task.completed" value="false">
+      ng-model="currentTask.completed" value="false">
       <label>False</label>
 
       

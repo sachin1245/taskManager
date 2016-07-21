@@ -34,9 +34,9 @@ myApp.config(['$routeProvider', '$httpProvider', function($routeProvider, $httpP
       templateUrl: 'views/newTask.html',
       controller: 'taskController'
     }).
-    when('/edit',{
+    when('/edit/:id',{
       templateUrl: 'views/editTask.html',
-      controller: 'editTaskController'
+      controller: 'taskController'
     }).
     when('/searchTasks',{
       templateUrl: 'views/searchedTasks.html',

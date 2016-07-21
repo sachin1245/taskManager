@@ -8,32 +8,28 @@ myApp.service('taskService',['$rootScope','$location','$http','$route',function(
 		deleteTask: deleteTask,
 		changed: changed,
 		search: search
-	}
-
-	var currentTask;
-	var searchedTask;
+	}	
 
 
 	function changed(task){
-		if(task){
-			currentTask = task;
-		}
-		
-		return currentTask;
+
+		$rootScope.currentTask = task;
+	
 	}//edit task state
 
 	function getTask(){
-		return new Promise(function(resolve,reject){
-			var data ;
-			 $http.get("http://localhost:3000/tasks").then(function(response){
-			  	data = response.data;
-			  	resolve(data);
-			  },function(e){
-			  	reject('something went wrong');
-			  });
-		});
 
-	}
+		$http.get('http://localhost:3000/tasks').then(function(response){
+			$rootScope.tasks = response.data;
+			$location.path('/tasks');
+			$route.reload();
+		},function(e){
+			console.log('Couldn\'t  get tasks , Something went wrong');
+		});
+		
+		
+		return;
+	}//to get all tasks
 
 
 	function search(q){
@@ -41,7 +37,7 @@ myApp.service('taskService',['$rootScope','$location','$http','$route',function(
 			$http.get('http://localhost:3000/tasks',{ params: { 
 				q:q
 			}}).then(function(response){
-				searchedTask = response.data;
+				$rootScope.searchedTasks = response.data;
 				$location.path('/searchTasks');
 				$route.reload();
 			},function(e){
@@ -49,13 +45,14 @@ myApp.service('taskService',['$rootScope','$location','$http','$route',function(
 			});
 		}
 		
-		return searchedTask;
+		return;
 	}//search function returns the matched tasks with search query
 
 	function newTask(task){
 		$http.post('http://localhost:3000/tasks',task).then(function(data){
 			$location.path('/tasks');
-			 return data;
+			getTask();
+			$route.reload();
 		 },function(e){
 		    console.log('something went wrong');
 		 })
@@ -72,6 +69,7 @@ myApp.service('taskService',['$rootScope','$location','$http','$route',function(
 	function deleteTask(taskId){
 		$http.delete('http://localhost:3000/tasks/'+taskId).then(function(){
 			console.log('Task Deleted');
+			getTask();
 			$route.reload();
 		},function(e){
 			console.log('couldn\'t delete the task ')

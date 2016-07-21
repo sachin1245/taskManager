@@ -1,5 +1,5 @@
   <div class="branding" ng-hide="currentUser"><a ng-href="#/">Home</a></div>
-  <div class="branding" ng-show="currentUser"><a ng-href="#/tasks">Home</a></div>
+  <div class="branding" ng-show="currentUser"><a ng-click="getTasks()" class="navlink">Home</a></div>
   <ul>
   	
 
@@ -7,7 +7,8 @@
     <li><a ng-hide="currentUser" ng-href="#/login">Login</a></li>
     <li><a ng-hide="currentUser" ng-href="#/register">Register</a></li>
     <li><a ng-href="#/login" ng-click="logout()" ng-show="currentUser">Logout</a></li>
-    <li><a ng-show="currentUser" ng-href="#/tasks">View All Tasks</a></li>
+    <!-- ng-href="#/tasks" -->
+    <li><a ng-show="currentUser" ng-click="getTasks()"  class="navlink">View All Tasks</a></li>
     <li><a ng-show="currentUser" ng-href="#/new">Create Task</a></li>
     <form name="myform"ng-submit="searchTasks(query)" 
     novalidate>

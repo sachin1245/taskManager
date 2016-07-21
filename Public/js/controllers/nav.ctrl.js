@@ -5,6 +5,9 @@ myApp.controller('navController', ['$rootScope','$scope', 'Authentication','$win
   //to change the nav elements state
   $rootScope.currentUser = $window.localStorage.Auth || '';
 
+  $scope.getTasks = function(){
+    taskService.getTask();
+  }
 
   $scope.searchTasks = function(q){
   	taskService.search(q);

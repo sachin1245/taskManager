@@ -14,4 +14,5 @@ myApp.controller('RegistrationController',
     Authentication.register($scope.user);
   }; // register
 
+  
 }]); // Controller

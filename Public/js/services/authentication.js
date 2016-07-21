@@ -1,6 +1,6 @@
 myApp.factory('Authentication', 
-  ['$rootScope', '$location', '$window','$http','AuthTokenFactory',
-  function($rootScope,$location, $window,$http,AuthTokenFactory) {
+  ['$rootScope', '$location', '$window','$http','AuthTokenFactory','taskService',
+  function($rootScope,$location, $window,$http,AuthTokenFactory,taskService) {
  
     return {
     
@@ -20,6 +20,7 @@ myApp.factory('Authentication',
 
     logout: function() {
       $rootScope.currentUser = '';
+      $rootScope.tasks = '';
       $http.delete('/users/login').then(function(){
           return AuthTokenFactory.setToken();
       },function(e){

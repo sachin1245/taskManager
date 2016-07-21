@@ -2,17 +2,15 @@ myApp.controller('taskController',['$http','$scope','$rootScope','$location','$r
 	function($http,$scope,$rootScope,$location,$routeParams,$route,taskService){
 
 
+	if($rootScope.count < 1 || $rootScope.count === undefined){
+		taskService.getTask();
+		$rootScope.count++;
+	}//to get the tasks when the page is reloaded
 
 
-	$scope.tasks = {};
-
-	$scope.searchedTasks = taskService.search();
-
-	 $http.get("http://localhost:3000/tasks").then(function(response){
-            $scope.tasks = response.data;
-     },function(e){
-            console.log('something went wrong');
-     });//loads all tasks initial login
+	$scope.getTasks = function(){
+		taskService.getTask();
+	}
 
 	$scope.editTask = function(task){
 		taskService.changed(task);
@@ -23,8 +21,8 @@ myApp.controller('taskController',['$http','$scope','$rootScope','$location','$r
 	}//newTask
 
 
-	$scope.updateTask = function(task,taskId){
-		taskService.updateTask(task,taskId);
+	$scope.updateTask = function(task){
+		taskService.updateTask(task);
 	}//updateTask
 
 	$scope.deleteTask = function(taskId){
