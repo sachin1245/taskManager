@@ -206,9 +206,8 @@ app.delete('/users/login',middleware.requireAuthentication,function(req,res){
 //sequelize create tables on calling sync() and by passing follwing object to sync({force:true}) sequelize
 //drops the present table and recreates them
 db.sequelize.sync().then(function() {
-	
+	app.listen(PORT, function() {
+		console.log("express running on port " + PORT)
+	});
 });
 
-app.listen(PORT, function() {
-	console.log("express running on port " + PORT)
-});
